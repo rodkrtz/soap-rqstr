@@ -7,7 +7,7 @@ import java.net.HttpURLConnection
 import java.net.URLConnection
 import javax.net.ssl.HttpsURLConnection
 
-class SOAPRequestSender {
+object SOAPRequestSender {
 
     fun send(soapRequest: SOAPRequest): SOAPResponse {
 

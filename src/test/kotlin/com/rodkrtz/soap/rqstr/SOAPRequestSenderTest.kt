@@ -20,15 +20,16 @@ class SOAPRequestSenderTest {
             </soap:Envelope>
         """.trimIndent()
 
-        val headers = mutableMapOf("Content-Type" to "text/xml; charset=utf-8")
-        val soapRequest = SOAPRequest(
-            soapRequestMessage = soapMessage,
-            headers = headers,
-            targetURL = URL("https://www.dataaccess.com/webservicesserver/NumberConversion.wso"),
-            sslSocketFactory = SSLSocketFactory.getDefault() as SSLSocketFactory
-        )
+        val soapRequest = SOAPRequestBuilder.getInstance()
+            .soapRequestMessage(soapMessage)
+            .targetURL(URL("https://www.dataaccess.com/webservicesserver/NumberConversion.wso"))
+            .headers(mutableMapOf("Content-Type" to "text/xml; charset=utf-8"))
+            .sslSocketFactory(SSLSocketFactory.getDefault() as SSLSocketFactory)
+            .connectionTimeout(30000)
+            .readTimeout(30000)
+            .build()
 
-        val soapResponse = SOAPRequestSender().send(soapRequest)
+        val soapResponse = SOAPRequestSender.send(soapRequest)
         println(soapResponse)
 
         assertEquals(200, soapResponse.statusCode)
